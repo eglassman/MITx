@@ -1,7 +1,52 @@
+function read_operand(mytokenarray) {
+    var numStr = mytokenarray[0]; //first element of the array
+    mytokenarray.shift(); //the first element using the .shift() method of array
+    var number = parseInt(numStr);  //use built-in function parseInt() to convert num to an integer
+    try {
+        if (isNaN(number)) throw "number expected";
+        else 
+            return number; // result is the value NaN (“not a number”), throw an error “number expected”
+    } //otherwise return the integer value
+    catch(err) {
+        console.log('error!');
+    }
+}
+
+function evaluation(mytokenarray) {
+   //try {
+       if (mytokenarray.length === 0) throw "missing operand";
+       //if array is empty, throw an error “missing operand”
+
+    var value = read_operand(mytokenarray);
+   while (mytokenarray.length !== 0) {
+       var operator = read_operand(mytokenarray); // token, remove from array
+       //if ( operator isn’t +, -, * or /, throw an error “unrecognized operator”
+       if (operator != "+"|"-"|"*"|"/") throw "unrecognized operator";
+       if (mytokenarray.length===0) throw "missing operand"; // array is empty, throw an error “missing operand”
+       var secondNum = read_operand(mytokenarray);
+        if (operator=="+") var valueOut = parseInt(value) + parseInt(secondNum);   // perform requested operation
+        else if (operator=="-") valueOut = parseInt(value) - parseInt(secondNum);
+        else if (operator=="*") valueOut = parseInt(value) * parseInt(secondNum);
+        else if (operator=="/") valueOut = parseInt(value) / parseInt(secondNum);
+   }
+   return valueOut
+   //}
+   /*catch(err) {
+       console.log('error!');
+   }*/
+}
+
 function calculate(text) {
     var pattern = /\d+|\+|\-|\*|\/|\(|\)/g;
     var tokens = text.match(pattern);
-    return JSON.stringify(tokens);
+    //return JSON.stringify(tokens);
+     try {
+      var val = evaluation(tokens);
+      if (tokens.length !== 0) throw "ill-formed expression"
+      else return String(val)
+    } catch (err) {
+       return err;   // error message will be printed as the answer
+    }
 }
             
             
@@ -21,3 +66,4 @@ $(document).ready(function (){
         setup_calc(this);
     });
 });
+
