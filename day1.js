@@ -21,13 +21,14 @@ function evaluation(mytokenarray) {
    while (mytokenarray.length !== 0) {
        var operator = mytokenarray.shift(); // token, remove from array
        //if ( operator isn’t +, -, * or /, throw an error “unrecognized operator”
-       if (operator !== "+"|"-"|"*"|"/") throw "unrecognized operator"; // 
+       //if (operator !== "+" | operator !=="-") throw "unrecognized operator"; //|"*"|"/")  // 
        if (mytokenarray.length===0) throw "missing operand"; // array is empty, throw an error “missing operand”
        var secondNum = read_operand(mytokenarray);
         if (operator=="+") var valueOut = parseInt(value) + parseInt(secondNum);   // perform requested operation
         else if (operator=="-") valueOut = parseInt(value) - parseInt(secondNum);
         else if (operator=="*") valueOut = parseInt(value) * parseInt(secondNum);
         else if (operator=="/") valueOut = parseInt(value) / parseInt(secondNum);
+        else throw "unrecognized operator";
    }
    return valueOut
    //}
