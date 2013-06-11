@@ -1,7 +1,8 @@
 function read_operand(mytokenarray) {
-    var numStr = mytokenarray[0]; //first element of the array
+    var token = mytokenarray[0]; //first element of the array
     mytokenarray.shift(); //the first element using the .shift() method of array
-    var number = parseInt(numStr);  //use built-in function parseInt() to convert num to an integer
+    if (token == "(") return evaluation(mytokenarray);
+    else var number = parseInt(token);  //use built-in function parseInt() to convert num to an integer
     try {
         if (isNaN(number)) throw "number expected";
         else 
@@ -18,8 +19,12 @@ function evaluation(mytokenarray) {
        //if array is empty, throw an error “missing operand”
 
     var value = read_operand(mytokenarray);
-   while (mytokenarray.length !== 0) {
+   while (mytokenarray.length !== 0 && value != ")") {
        var operator = mytokenarray.shift(); // token, remove from array
+       if (operator=="(") {
+           mytokenarray.shift()
+           return evaluation(mytokenarray)
+       }
        //if ( operator isn’t +, -, * or /, throw an error “unrecognized operator”
        //if (operator !== "+" | operator !=="-") throw "unrecognized operator"; //|"*"|"/")  // 
        if (mytokenarray.length===0) throw "missing operand"; // array is empty, throw an error “missing operand”
